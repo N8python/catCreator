@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Creator</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
+    <script src="https://www.lactame.com/lib/ml/4.0.0/ml.min.js"></script>
+</head>
+
+<body>
+    <div id="sliders" style="float:left; height: 600px; width: 205px; outline: 2px solid black; margin-right: 16px; overflow: scroll;">
+    </div>
+    <canvas id="canvas" width="256px" height="256px"></canvas>
+    <br>
+    <button style="margin-right: 50px" id="render">Render</button>
+    <label>Render on change: </label>
+    <input id="liveRender" type="checkbox" checked>
+    <script src="main.js"></script>
+</body>
+
+</html>
