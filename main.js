@@ -8,12 +8,15 @@ let pca;
 let encoder;
 let decoder;
 let pcaSummary;
+let encodings;
 const cavnas = document.getElementById("canvas");
 const ctx = cavnas.getContext("2d");
 const render = document.getElementById("render");
+const random = document.getElementById("random");
 const sliders = document.getElementById("sliders");
 const liveRender = document.getElementById("liveRender");
-const currCat = Array(256).fill(0);
+let currCat = Array(256).fill(0);
+let sliderList = [];
 async function main() {
     encoder = await tf.loadLayersModel("encoder/model.json");
     decoder = await tf.loadLayersModel("decoder/model.json");
@@ -34,6 +37,8 @@ async function main() {
     }
     pcaSummary = await fetch("pcaSummary.json");
     pcaSummary = await pcaSummary.json();
+    encodings = await fetch("encodings.json");
+    encodings = await encodings.json();
     for (let i = 0; i < pcaSummary.length; i++) {
         const label = document.createElement("label");
         label.innerHTML = `PCA #${i + 1}`;
@@ -55,6 +60,8 @@ async function main() {
             }
         }
         sliders.appendChild(slider);
+        sliderList.push(slider);
+        sliders.appendChild(document.createElement("br"));
     }
 }
 main();
@@ -84,3 +91,13 @@ render.onclick = () => {
         });
     }
 };
+random.onclick = () => {
+    if (encodings && decoder && pca && pcaSummary) {
+        const chosenVec = pca.predict([encodings[Math.floor(Math.random() * encodings.length)]]).to1DArray();
+        currCat = chosenVec;
+        sliderList.forEach((slider, i) => {
+            slider.value = util.map(chosenVec[i], -pcaSummary[i].stddiv, pcaSummary[i].stddiv, 0, 100, true);
+        })
+        renderCat();
+    }
+}
