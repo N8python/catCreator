@@ -12,6 +12,7 @@
 
 <body>
     <div id="sliders" style="float:left; height: 600px; width: 250px; outline: 2px solid black; margin-right: 16px; overflow: scroll;">
+        Loading...
     </div>
     <canvas id="canvas" width="256px" height="256px"></canvas>
     <br>
@@ -20,7 +21,13 @@
     <input id="liveRender" type="checkbox" checked>
     <br>
     <br>
-    <button id="random">Random Cat</button>
+    <button id="random">Random Cat (From Dataset)</button>
+    <br>
+    <br>
+    <label>Encode Image: </label>
+    <input id="imageUpload" type="file" accept="image/*">
+    <br>
+    <button id="encode">Encode</button>
     <script src="main.js"></script>
 </body>
 

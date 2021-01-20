@@ -15,6 +15,8 @@ const render = document.getElementById("render");
 const random = document.getElementById("random");
 const sliders = document.getElementById("sliders");
 const liveRender = document.getElementById("liveRender");
+const imageUpload = document.getElementById("imageUpload");
+const encode = document.getElementById("encode");
 let currCat = Array(256).fill(0);
 let sliderList = [];
 async function main() {
@@ -39,6 +41,7 @@ async function main() {
     pcaSummary = await pcaSummary.json();
     encodings = await fetch("encodings.json");
     encodings = await encodings.json();
+    sliders.innerHTML = "";
     for (let i = 0; i < pcaSummary.length; i++) {
         const label = document.createElement("label");
         label.innerHTML = `PCA #${i + 1}`;
@@ -99,5 +102,43 @@ random.onclick = () => {
             slider.value = util.map(chosenVec[i], -pcaSummary[i].stddiv, pcaSummary[i].stddiv, 0, 100, true);
         })
         renderCat();
+    }
+}
+encode.onclick = () => {
+    if (imageUpload.files[0] && encoder) {
+        const img = document.createElement("img");
+        img.classList.add("obj");
+        img.file = imageUpload.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            img.src = e.target.result;
+            img.width = 64;
+            img.height = 64;
+            setTimeout(() => {
+                const tempCanvas = document.createElement("canvas");
+                tempCanvas.width = 64;
+                tempCanvas.height = 64;
+                const tempCtx = tempCanvas.getContext("2d");
+                tempCtx.drawImage(img, 0, 0);
+                //const imageData = tempCtx.getImageData(0, 0, 64, 64).data.filter((x, i) => (i + 1) % 4 !== 0);
+                const imageTensor = [];
+                for (let y = 0; y < 64; y++) {
+                    imageTensor[y] = [];
+                    for (let x = 0; x < 64; x++) {
+                        //const idx = (64 * y * x);
+                        //imageTensor[y][x] = [imageData[idx] / 255, imageData[idx + 1] / 255, imageData[idx + 2] / 255]
+                        imageTensor[y][x] = Array.from(tempCtx.getImageData(x, y, 1, 1).data.slice(0, 3)).map(x => x / 255);
+                    }
+                }
+                const encoding = encoder.predict(tf.tensor([imageTensor])).arraySync()[0];
+                const chosenVec = pca.predict([encoding]).to1DArray();
+                currCat = chosenVec;
+                sliderList.forEach((slider, i) => {
+                    slider.value = util.map(chosenVec[i], -pcaSummary[i].stddiv, pcaSummary[i].stddiv, 0, 100, true);
+                })
+                renderCat();
+            })
+        };
+        reader.readAsDataURL(imageUpload.files[0]);
     }
 }
