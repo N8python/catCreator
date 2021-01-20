@@ -109,17 +109,17 @@ encode.onclick = () => {
         const img = document.createElement("img");
         img.classList.add("obj");
         img.file = imageUpload.files[0];
+        //img.width = 64;
+        //img.height = 64;
         const reader = new FileReader();
         reader.onload = function(e) {
             img.src = e.target.result;
-            img.width = 64;
-            img.height = 64;
             setTimeout(() => {
                 const tempCanvas = document.createElement("canvas");
                 tempCanvas.width = 64;
                 tempCanvas.height = 64;
                 const tempCtx = tempCanvas.getContext("2d");
-                tempCtx.drawImage(img, 0, 0);
+                tempCtx.drawImage(img, 0, 0, 64, 64);
                 //const imageData = tempCtx.getImageData(0, 0, 64, 64).data.filter((x, i) => (i + 1) % 4 !== 0);
                 const imageTensor = [];
                 for (let y = 0; y < 64; y++) {
