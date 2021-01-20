@@ -17,6 +17,9 @@ const sliders = document.getElementById("sliders");
 const liveRender = document.getElementById("liveRender");
 const imageUpload = document.getElementById("imageUpload");
 const encode = document.getElementById("encode");
+const save = document.getElementById("save");
+const catName = document.getElementById("catName");
+const average = document.getElementById("average");
 let currCat = Array(256).fill(0);
 let sliderList = [];
 async function main() {
@@ -44,7 +47,7 @@ async function main() {
     sliders.innerHTML = "";
     for (let i = 0; i < pcaSummary.length; i++) {
         const label = document.createElement("label");
-        label.innerHTML = `PCA #${i + 1}`;
+        label.innerHTML = `PC #${i + 1}`;
         if (i < 9) {
             label.innerHTML += "&nbsp;&nbsp;&nbsp;&nbsp;";
         } else if (i < 99) {
@@ -141,4 +144,17 @@ encode.onclick = () => {
         };
         reader.readAsDataURL(imageUpload.files[0]);
     }
+}
+save.onclick = () => {
+    canvas.toBlob(function(blob) {
+        saveAs(blob, catName.value + ".png");
+    });
+}
+average.onclick = () => {
+    const chosenVec = Array(256).fill(0);
+    currCat = chosenVec;
+    sliderList.forEach((slider, i) => {
+        slider.value = util.map(chosenVec[i], -pcaSummary[i].stddiv, pcaSummary[i].stddiv, 0, 100, true);
+    })
+    renderCat();
 }

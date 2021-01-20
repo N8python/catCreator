@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
     <script src="https://www.lactame.com/lib/ml/4.0.0/ml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
 </head>
 
 <body>
@@ -24,10 +25,17 @@
     <button id="random">Random Cat (From Dataset)</button>
     <br>
     <br>
+    <button id="average">Return to Average Cat</button>
+    <br>
+    <br>
     <label>Encode Image: </label>
     <input id="imageUpload" type="file" accept="image/*">
     <br>
     <button id="encode">Encode</button>
+    <br>
+    <br>
+    <button id="save">Save Cat As</button>
+    <input id="catName" value="cat" type="text" style="width: 50px;">
     <script src="main.js"></script>
 </body>
 
