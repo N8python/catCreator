@@ -22,12 +22,12 @@
         <div id="sliders" class="w3-margin" style="flex-grow: 1; height: 600px; width: 250px; margin-right: 16px; overflow: scroll; border: 2px solid black;">
             Loading...
         </div>
-        <div class="w3-margin w3-padding" style="margin-right: 16px; flex-grow: 1;border: 4px solid black;">
+        <div class="w3-margin w3-padding" style="margin-right: 16px; flex-grow: 1; border: 4px solid black; overflow: scroll;">
             <canvas style="display: block; border: 4px solid black;" id="canvas" width="256px" height="256px"></canvas>
             <br>
             <button class="guibutton" style="display: block;" id="render">Render</button>
         </div>
-        <div class="w3-margin w3-padding" style="flex-grow: 0; border: 4px solid black;">
+        <div class="w3-margin w3-padding" style="flex-grow: 0; border: 4px solid black;height: 600px; max-width:400px;overflow: scroll;">
             <label style="position: relative; top: 3px;">Render on change: </label>
             <input id="liveRender" class="w3-check" type="checkbox" style="width: 16px; height: 16px;" checked>
             <br>
@@ -41,12 +41,22 @@
             <label>Encode Image: </label>
             <input id="imageUpload" type="file" accept="image/*">
             <br>
-            <button class="guibutton" id="encode">Encode</button>
+            <button style="margin-top:8px" class="guibutton" id="encode">Encode</button>
             <br>
             <br>
             <button class="guibutton" id="save">Save Cat As</button>
             <input id="catName" value="cat" type="text" style="width: 75px; position: relative; bottom: 2px;">
             <label>.png</label>
+            <br>
+            <h3>Instructions:</h3>
+            <p>Drag the sliders around to customize the cat above. The higher up a slider is on the list, the more it impacts what the cat looks like. You can also find random cats, upload your own cats to encode, and save cool cats you make to your device.
+                Eldritch abominations may occur when trying to encode your own cat.</p>
+            <h3>Technical Info:</h3>
+            <p>This application is powered by a convolutional autoencoder trained on the cats in <a target="_blank" href="https://www.kaggle.com/andrewmvd/animal-faces">this dataset</a>. PCA was then run on the encodings produced by this model, creating
+                a 256-dimensional latent space, where cats from the training set and novel cats could be encoded and decoded. The 256 sliders allow you to explore this latent space, the first slider corresponding to the first dimension (most important),
+                the second slider to the second (second most important), and so on. These dimensions are fed to a decoder model, and the decoding is mapped to a canvas and displayed.</p>
+            <p>The model was trained with <a href="https://www.tensorflow.org/js" target="_blank">tensorflow.js</a>.</p>
+            <p>The PCA was done using <a href="https://github.com/mljs/pca">mljs</a>.</p>
         </div>
     </div>
     <script src="main.js"></script>
