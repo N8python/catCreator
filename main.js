@@ -48,27 +48,45 @@ async function main() {
     for (let i = 0; i < pcaSummary.length; i++) {
         const label = document.createElement("label");
         label.innerHTML = `PC #${i + 1}`;
-        if (i < 9) {
+        /*if (i < 9) {
             label.innerHTML += "&nbsp;&nbsp;&nbsp;&nbsp;";
         } else if (i < 99) {
             label.innerHTML += "&nbsp;&nbsp;";
-        }
-        sliders.appendChild(label);
+        }*/
+        //sliders.appendChild(label);
         const slider = document.createElement("input");
         slider.setAttribute("type", "range");
         slider.setAttribute("min", "0");
         slider.setAttribute("max", "100");
+        slider.style.width = "90%"
+        slider.classList.add("pcSlider");
+        //slider.classList.add("");
         slider.onchange = () => {
-            const adjustedValue = util.map(+slider.value, 0, 100, -pcaSummary[i].stddiv, pcaSummary[i].stddiv, true);
-            currCat[i] = adjustedValue;
-            if (liveRender.checked) {
-                renderCat();
+                const adjustedValue = util.map(+slider.value, 0, 100, -pcaSummary[i].stddiv, pcaSummary[i].stddiv, true);
+                currCat[i] = adjustedValue;
+                if (liveRender.checked) {
+                    renderCat();
+                }
             }
-        }
-        sliders.appendChild(slider);
+            //sliders.appendChild(slider);
         sliderList.push(slider);
-        sliders.appendChild(document.createElement("br"));
+        //sliders.appendChild(document.createElement("br"));
+        const sliderDiv = document.createElement("div");
+        sliderDiv.style.border = "2px solid black";
+        sliderDiv.style.display = "inline-block";
+        sliderDiv.style.textAlign = "center";
+        sliderDiv.classList.add("sliderWidthControl");
+        sliderDiv.appendChild(label);
+        sliderDiv.appendChild(document.createElement("br"));
+        sliderDiv.appendChild(slider);
+        sliders.appendChild(sliderDiv);
     }
+    //document.getElementById("loadImage").style.display = "none";
+    const loadImage = document.getElementById("loadImage");
+    //.classList.remove("w3-animate-opacity");
+    loadImage.style.display = "none";
+    document.getElementById("main").style.display = "flex";
+    document.getElementById("main").classList.add("w3-animate-zoom");
 }
 main();
 const renderCat = () => {
