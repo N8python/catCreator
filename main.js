@@ -13,6 +13,7 @@ const cavnas = document.getElementById("canvas");
 const ctx = cavnas.getContext("2d");
 const render = document.getElementById("render");
 const random = document.getElementById("random");
+const randomTrue = document.getElementById("randomTrue");
 const sliders = document.getElementById("sliders");
 const liveRender = document.getElementById("liveRender");
 const imageUpload = document.getElementById("imageUpload");
@@ -175,4 +176,14 @@ average.onclick = () => {
         slider.value = util.map(chosenVec[i], -pcaSummary[i].stddiv, pcaSummary[i].stddiv, 0, 100, true);
     })
     renderCat();
+}
+randomTrue.onclick = () => {
+    if (pcaSummary) {
+        const chosenVec = Array(256).fill(0).map((x, i) => pcaSummary[i].mean + pcaSummary[i].stddiv * ((Math.random() - 0.5) * 1.5));
+        currCat = chosenVec;
+        sliderList.forEach((slider, i) => {
+            slider.value = util.map(chosenVec[i], -pcaSummary[i].stddiv, pcaSummary[i].stddiv, 0, 100, true);
+        })
+        renderCat();
+    }
 }
